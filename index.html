@@ -1,1 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memory Matching Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #1e1e2f;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    #scoreboard, #message {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    #game {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .card {
+      width: 80px;
+      height: 100px;
+      background: #444;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      cursor: pointer;
+      border-radius: 8px;
+      user-select: none;
+      transition: all 0.3s ease;
+    }
+    .flipped {
+      background: #888;
+    }
+    .matched {
+      background: green;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: gold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
 
+  <h1>Memory Matching Game</h1>
+  <h2>Developed by Shubh</h2>
+  <div id="scoreboard">Matches: 0 | Tries: 0</div>
+  <div id="game"></div>
+  <div id="message"></div>
+  <button onclick="initGame()">Restart Game</button>
+
+  <script>
+    const emojis = ['🐶', '🐱', '🐰', '🦊', '🐵', '🐼', '🦁', '🐯'];
+    let cards = [];
+    let first, second;
+    let matches = 0;
+    let tries = 0;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function initGame() {
+      const game = document.getElementById('game');
+      game.innerHTML = '';
+      cards = shuffle([...emojis, ...emojis]);
+      matches = 0;
+      tries = 0;
+      first = null;
+      second = null;
+      updateScoreboard();
+      document.getElementById('message').innerText = '';
+
+      cards.forEach((emoji, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.emoji = emoji;
+        card.dataset.index = index;
+        card.innerText = '❓';
+        card.onclick = () => flipCard(card);
+        game.appendChild(card);
+      });
+    }
+
+    function flipCard(card) {
+      if (card.classList.contains('flipped') || card.classList.contains('matched') || second) return;
+
+      card.classList.add('flipped');
+      card.innerText = card.dataset.emoji;
+
+      if (!first) {
+        first = card;
+      } else {
+        second = card;
+        tries++;
+        if (first.dataset.emoji === second.dataset.emoji) {
+          first.classList.add('matched');
+          second.classList.add('matched');
+          matches++;
+          resetFlip();
+        } else {
+          setTimeout(() => {
+            first.innerText = '❓';
+            second.innerText = '❓';
+            first.classList.remove('flipped');
+            second.classList.remove('flipped');
+            resetFlip();
+          }, 800);
+        }
+        updateScoreboard();
+
+        if (matches === emojis.length) {
+          document.getElementById('message').innerText = 'You won!';
+        }
+      }
+    }
+
+    function resetFlip() {
+      first = null;
+      second = null;
+    }
+
+    function updateScoreboard() {
+      document.getElementById('scoreboard').innerText = `Matches: ${matches} | Tries: ${tries}`;
+    }
+
+    window.onload = initGame;
+  </script>
+
+</body>
+</html>
