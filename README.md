@@ -21,7 +21,9 @@ A fun and interactive memory card matching game built with HTML, CSS, and JavaSc
 3. Match all pairs to complete the level and increase your score.  
 4. Use your memory and speed to beat the game!  
 
----
+   just copy this link and paste any browser to play -
+
+https://shubh-tamrakar.github.io/shubh.ai/
 
 ## Project Setup & Deployment
 
@@ -31,3 +33,4 @@ A fun and interactive memory card matching game built with HTML, CSS, and JavaSc
 
 ```bash
 git clone https://github.com/Shubh-Tamrakar/memory-game.git
+
