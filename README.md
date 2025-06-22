@@ -23,7 +23,7 @@ A fun and interactive memory card matching game built with HTML, CSS, and JavaSc
 
    just copy this link and paste any browser to play -
 
-https://shubh-tamrakar.github.io/shubh.ai/
+https://shubh-tamrakar.github.io/memory-matching-game/
 
 ## Project Setup & Deployment
 
